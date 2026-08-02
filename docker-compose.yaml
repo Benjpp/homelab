@@ -1,0 +1,35 @@
+services:
+  homelab:
+    container_name: homelab
+    restart: unless-stopped  
+    build:
+      context: "."
+      dockerfile: "Dockerfile"
+    volumes: 
+      - ".:/var/www/html"
+    ports:
+      - "8000:8000"
+    networks:
+      - homelab_net
+  db:
+    image: "mysql:8.1.0"
+    container_name: "db_app"
+    restart: unless-stopped
+    ports: 
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MY_SQL_PASSWORD}
+      TZ: '${GEN_TZ}'
+      MY_SQL_ROOT_HOST: '%'
+    volumes: 
+      - "../db_homelab:/var/lib/mysql"
+    networks:
+      - homelab_net
+
+networks:
+  homelab_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.18.0/24
