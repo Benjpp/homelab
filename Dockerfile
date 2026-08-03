@@ -52,7 +52,7 @@ RUN chmod +x /usr/local/bin/start.sh
 
 # 7. Instalar dependencias en la construcción
 RUN composer install --no-interaction --optimize-autoloader
-RUN npm install && npm run build
+RUN npm install && npm run production
 
 # 8. Permisos para Laravel (damos permisos a toda la carpeta del proyecto)
 RUN chown -R www-data:www-data /var/www/html
