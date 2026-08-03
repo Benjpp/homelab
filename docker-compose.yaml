@@ -7,8 +7,10 @@ services:
       dockerfile: "Dockerfile"
     volumes: 
       - ".:/var/www/html"
+      - "/var/www/html/vendor"       # Protects vendor created by Dockerfile
+      - "/var/www/html/node_modules" # Protects node_modules created by Dockerfile
     ports:
-      - "8000:8000"
+      - "8000:80"
     networks:
       - homelab_net
   db:
