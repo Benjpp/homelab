@@ -1,3 +1,5 @@
+import "../css/app.css"
+
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Imprimir mensaje en la consola del navegador
     console.log('🚀 JS Vanilla cargado correctamente con Laravel Mix');
