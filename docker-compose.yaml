@@ -8,8 +8,8 @@ services:
     user: "1000:1000"
     volumes: 
       - ".:/var/www/html"
-      - "/var/www/html/vendor"       # Protects vendor created by Dockerfile
-      - "/var/www/html/node_modules" # Protects node_modules created by Dockerfile
+      # - "/var/www/html/vendor"       # Protects vendor created by Dockerfile
+      # - "/var/www/html/node_modules" # Protects node_modules created by Dockerfile
     ports:
       - "8000:80"
     networks:

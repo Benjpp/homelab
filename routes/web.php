@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
 
-Route::inertia('/', 'welcome')->name('home');
+Route::get('/login', [AuthController::class,'index'])->name('login');
+Route::post('/auth/login', [AuthController::class,'login']);
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::inertia('dashboard', 'dashboard')->name('dashboard');
+Route::middleware('auth')->group(function () {
+    Route::get('/', [AuthController::class,'home']);
 });
 
 require __DIR__.'/settings.php';

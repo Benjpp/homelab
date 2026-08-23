@@ -22,6 +22,10 @@ return [
 
     ],
 
+    'devtools' => [
+        'enabled' => env('INERTIA_DEVTOOLS_ENABLED', false),
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Pages
