@@ -10,19 +10,24 @@
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 </head>
 <body>
-    <div class="banner bg-dark text-white p-2 rounded-0 mb-4">
+    
+    <div class="banner bg-dark text-white p-2 rounded-0 mb-0">
         <div class="container">
             <nav class="navbar">
-                <li class="nav-item">
-                    <a class="nav-link active d-flex align-items-center gap-2" aria-current="page" href="/user">
-                        <i class="fa-solid fa-user"></i>
-                        <span> Users </span>
+                <li class="nav-item list-unstyled">
+                    <a class="nav-link active d-flex align-items-center gap-2" aria-current="page" href="/config">
+                        <i class="fa-solid fa-cog"></i>
+                        <span> Config </span>
                     </a>
                 </li>
             </nav>
         </div>
     </div>
 
+    @yield('content')
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
 </body>
 </html>
 

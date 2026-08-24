@@ -33,3 +33,24 @@ body {
     letter-spacing: 0.02em;
 }
 
+/* Pestañas inactivas: Fondo claro, texto oscuro */
+.nav-pills .custom-tab {
+    background-color: #ffffff;
+    color: #495057;
+    border: 1px solid #dee2e6;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Efecto Hover */
+.nav-pills .custom-tab:hover {
+    background-color: #e9ecef;
+    color: #212529;
+}
+
+/* Pestaña activa: Fondo oscuro (igual al banner superior) y texto blanco */
+.nav-pills .custom-tab.active {
+    background-color: #212529 !important; /* Tono oscuro del header */
+    color: #ffffff !important;
+    border-color: #212529 !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
