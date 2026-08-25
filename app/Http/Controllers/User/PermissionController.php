@@ -3,21 +3,21 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Permission;
 use Yajra\DataTables\Facades\DataTables;
 
-class UserController extends Controller
+class PermissionController extends Controller
 {
     public function index()
     {
-        return view("config.partials.users");
+        return view("config.partials.permissions");
     }
 
     public function getDatatable(){
-        $users = User::all();
-        return Datatables::of($users)
+        $permissions = Permission::all();
+
+        return Datatables::of($permissions)
             ->make(true);
     }
 }

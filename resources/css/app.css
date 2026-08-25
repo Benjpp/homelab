@@ -1,12 +1,5 @@
-@import 'tailwindcss';
-@import 'bootstrap/dist/css/bootstrap.min.css';
-@import './colors/components.css';
 @import 'tw-animate-css';
-
-@source '../views';
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-
-@custom-variant dark (&:is(.dark *));
+@import '~datatables.net-bs5/css/dataTables.bootstrap5.min.css';
 
 :root {
     color-scheme: light;
@@ -19,38 +12,103 @@ body {
     color: var(--text-primary);
 }
 
-.home-lab-header {
-    display: block;
-    width: 100%;
-    min-height: 76px;
-    padding: 1rem 1.25rem;
-    box-sizing: border-box;
-    color: #ffffff !important;
-    background: linear-gradient(135deg, #0f4c81 0%, #2563eb 100%) !important;
-    background-color: #0f4c81 !important;
-    font-size: 1.25rem;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-}
+/* --- ESTILOS DE PESTAÑAS --- */
 
-/* Pestañas inactivas: Fondo claro, texto oscuro */
-.nav-pills .custom-tab {
-    background-color: #ffffff;
-    color: #495057;
-    border: 1px solid #dee2e6;
+/* Pestaña inactiva */
+.nav-pills .nav-link.custom-tab {
+    background-color: #ffffff !important;
+    color: #495057 !important;
+    border: 1px solid #dee2e6 !important;
     transition: all 0.2s ease-in-out;
 }
 
-/* Efecto Hover */
-.nav-pills .custom-tab:hover {
-    background-color: #e9ecef;
-    color: #212529;
+/* Hover en inactiva */
+.nav-pills .nav-link.custom-tab:hover {
+    background-color: #e9ecef !important;
+    color: #212529 !important;
 }
 
-/* Pestaña activa: Fondo oscuro (igual al banner superior) y texto blanco */
-.nav-pills .custom-tab.active {
-    background-color: #212529 !important; /* Tono oscuro del header */
+/* Pestaña activa (Al pulsar) */
+.nav-pills .nav-link.custom-tab.active,
+.nav-pills .nav-link.custom-tab.show {
+    background-color: #212529 !important;
     color: #ffffff !important;
     border-color: #212529 !important;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Estructura general de la tabla */
+.professional-table {
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    border-radius: 0px !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03) !important;
+    border: 1px solid #e5e7eb !important;
+}
+
+/* Encabezados (Th) */
+.professional-table thead th {
+    background-color: #212529 !important; /* Color primario / oscuro elegante */
+    color: #ffffff !important;
+    font-size: 0.8125rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    padding: 12px 16px !important;
+    border-bottom: none !important;
+}
+
+/* Filas y Celdas (Td) */
+.professional-table tbody td {
+    padding: 12px 16px !important;
+    color: #374151 !important;
+    font-size: 0.875rem !important;
+    vertical-align: middle !important;
+    border-bottom: 1px solid #f3f4f6 !important;
+}
+
+/* Efecto Zebra (Filas alternas opcionales pero elegantes) */
+.professional-table tbody tr:nth-of-type(even) {
+    background-color: #f9fafb !important;
+}
+
+/* Efecto Hover en las filas */
+.professional-table tbody tr:hover {
+    background-color: #f3f4f6 !important;
+    transition: background-color 0.15s ease-in-out !important;
+}
+
+/* Fila superior (Entries y Search) y Fila inferior (Info y Paginación) */
+.dt-container .dt-layout-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 12px !important;
+    margin-top: 12px !important;
+}
+
+/* Forzar alineación vertical del selector de "entries" */
+.dt-container .dt-length {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+/* Estilar y alinear el select de entradas */
+.dt-container .dt-length select {
+    padding: 4px 8px !important;
+    border-radius: 4px !important;
+    border: 1px solid #d1d5db !important;
+}
+
+/* Forzar alineación del cuadro de búsqueda */
+.dt-container .dt-search {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.dt-container .dt-search input {
+    margin-bottom: 0 !important; /* Quita el margin-bottom sobrante */
 }

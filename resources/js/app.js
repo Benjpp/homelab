@@ -30,7 +30,7 @@ function initDomRefs(){
 
             if(response.ok){
                 console.log("Authenticated")
-                window.location.href = '/'
+                window.location.href = '/config'
             }else{
                 window.alert(data.error)
             }
