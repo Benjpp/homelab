@@ -20,7 +20,6 @@ function initDTERoles(){
             { data: "name", title: "NAME" },
             { data: "guard_name", title: "GUARD NAME" }
         ],
-
     })
 }
 

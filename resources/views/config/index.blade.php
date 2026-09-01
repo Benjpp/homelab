@@ -13,7 +13,7 @@
                 </button>
             </li>
             @endcan
-            @can('permission.index')
+            @can('role.index')
             <li class="nav-item" role="presentation">
                 <button class="nav-link custom-tab rounded-0" id="roles-tab" data-bs-toggle="tab" data-bs-target="#roles-tab-pane" type="button" 
                     role="tab" aria-controls="roles-tab-pane" aria-selected="false">
@@ -21,7 +21,7 @@
                 </button>
             </li>
             @endcan
-            @can('role.index')
+            @can('permission.index')
             <li class="nav-item" role="presentation">
                 <button class="nav-link custom-tab rounded-0" id="permissions-tab" data-bs-toggle="tab" data-bs-target="#permissions-tab-pane" type="button" 
                     role="tab" aria-controls="permissions-tab-pane" aria-selected="false">
@@ -58,5 +58,8 @@
         @endcan
     </div>
 </div>
+
+<!-- Modals -->
+@include('config.modals.modal-permissions')
 
 @endsection

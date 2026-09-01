@@ -28,6 +28,10 @@ Route::middleware('auth')->group(function () {
         Route::controller(PermissionController::class)->group(function () {
             Route::get('/permission', 'index');
             Route::get('/permission/getDatatable', 'getDatatable');
+
+            Route::post('/permission/store', 'store')->middleware('can:permission.edit');
+            Route::get('/permission/get/{id}', 'getPermission');
+            Route::delete('/permission/dt/delete', 'deletePermission')->middleware('can:permission.edit');
         });
     });
 
