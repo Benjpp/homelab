@@ -2,7 +2,6 @@
  * Form wrapper
  */
 
-import { keyCodes } from "vuetify/lib/util/helpers.mjs";
 import { fetchHeaders } from "../fetchHeaders"
 
 export class Form {
@@ -47,6 +46,8 @@ export class Form {
                     body: JSON.stringify(data)
                 });
 
+                console.log("Sending form data: ", JSON.stringify(data))
+
                 const responseData = await response.json();
 
                 // 3. Handle server error response (e.g., 422 Unprocessable Entity)
@@ -72,11 +73,19 @@ export class Form {
     }
 
     /**
-     * Generically extracts all form fields using the 'name' attribute
-     */
+    * Generically extracts all form fields using the 'name' attribute.
+    * Correctly handles multiselects and grouped checkboxes as arrays.
+    */
     getData() {
         const formData = new FormData(this.form);
-        return Object.fromEntries(formData.entries());
+        const data = {};
+
+        for (const [key, value] of formData.entries()) {
+            const values = formData.getAll(key);
+            data[key] = values.length > 1 ? values : value;
+        }
+
+        return data;
     }
 
     /**
@@ -92,6 +101,10 @@ export class Form {
      */
     setUrl(url) {
         this.url = url;
+    }
+
+    setMethod(method) {
+        this.httpMethod = method;
     }
 
     /**
@@ -115,5 +128,12 @@ export class Form {
                 field.value = value ?? ""; 
             }
         });
+    }
+
+    /**
+     * Clears out all data from the form
+     */
+    clearForm(){
+        this.reset()
     }
 }

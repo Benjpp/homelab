@@ -14,12 +14,14 @@
     <div class="banner bg-dark text-white p-2 rounded-0 mb-0">
         <div class="container">
             <nav class="navbar">
+                @canany(['user.index', 'role.index', 'permission.index'])
                 <li class="nav-item list-unstyled">
                     <a class="nav-link active d-flex align-items-center gap-2" aria-current="page" href="/config">
                         <i class="fa-solid fa-cog"></i>
                         <span> Config </span>
                     </a>
                 </li>
+                @endcanany
             </nav>
         </div>
     </div>

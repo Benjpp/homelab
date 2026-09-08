@@ -1,4 +1,3 @@
-import { permission } from "process";
 import { Form } from "../../components/form";
 import { names as eventNames, permissionsEvents } from "../../events/config-events";
 import { fetchHeaders } from "../../fetchHeaders";

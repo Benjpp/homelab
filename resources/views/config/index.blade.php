@@ -1,6 +1,7 @@
 @extends('app')
 
 @section('content')
+@canany(['user.index', 'role.index', 'permission.index'])
 
 <div class="banner bg-light border-bottom text-white p-2 rounded-0 mb-0">
     <div class="container">
@@ -61,5 +62,7 @@
 
 <!-- Modals -->
 @include('config.modals.modal-permissions')
+@include('config.modals.modal-users')
 
+@endcanany
 @endsection

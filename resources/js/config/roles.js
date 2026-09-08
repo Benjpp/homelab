@@ -8,7 +8,7 @@ function initDomRefs(){
 }
 
 function initDTERoles(){
-    tableRoles = new DataTable(tableRoles, {
+    dteRoles = new DataTable(tableRoles, {
         ajax: {
             url: "/role/getDatatable",
             type: "GET",

@@ -1,9 +1,10 @@
 {
-    "/js/app.min.js": "/js/app.min.js?id=83400e9d948200fbf0bb5a2e9f15981f",
-    "/js/users.min.js": "/js/users.min.js?id=27ada6eef8abcf110848eff619bf6a31",
-    "/js/permissions.min.js": "/js/permissions.min.js?id=670e2af7cf0f4e578622384a3383f6d1",
-    "/js/roles.min.js": "/js/roles.min.js?id=92782f0263ea6d36b7c041130dff98c6",
-    "/js/modal-permissions.min.js": "/js/modal-permissions.min.js?id=7fcfde60aa70a52b80d771d2b0d95501",
+    "/js/app.min.js": "/js/app.min.js?id=24cdd9e352f99b9d93999fe25afbc9b0",
+    "/js/users.min.js": "/js/users.min.js?id=01b1438d0b7b6c6f437d83810eb6218a",
+    "/js/permissions.min.js": "/js/permissions.min.js?id=bdf1a23cac562ee60430a65364b69a86",
+    "/js/roles.min.js": "/js/roles.min.js?id=896a49b74b3c5e19c47cca120371a65a",
+    "/js/modal-permissions.min.js": "/js/modal-permissions.min.js?id=27cd7e83c8f2d335b3297ce9cbb30240",
+    "/js/modal-users.min.js": "/js/modal-users.min.js?id=76db3f69910c8b028c1b56b8534643b1",
     "/css/app.css": "/css/app.css?id=2f5c5e563e124513930c1c50c97fd930",
     "/css/colors/components/components.css": "/css/colors/components/components.css?id=3081c36453a33223750186049c46d8bb"
 }

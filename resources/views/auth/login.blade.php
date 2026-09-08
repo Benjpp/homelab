@@ -20,13 +20,13 @@
                             <h3 class="font-weight-normal">Login</h3>
                         </div>
                         <div class="form-outline mb-3"> 
-                            <label class="form-label" for="inputEmail">Username</label>
-                            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" />
+                            <label class="form-label" for="inputAuthEmail">User Email</label>
+                            <input type="email" id="inputAuthEmail" class="form-control" placeholder="Email address" />
                         </div>
                     
                         <div class="form-outline mb-3">
-                            <label class="form-label" for="inputPassword">Password</label>
-                            <input type="password" id="inputPassword" class="form-control" />
+                            <label class="form-label" for="inputAuthPassword">Password</label>
+                            <input type="password" id="inputAuthPassword" class="form-control" />
                         </div>
                     
                         <div class="text-center pt-1 mb-2">

@@ -1,6 +1,5 @@
 import { Table } from "../components/table";
-import { permissionsEvents } from "../events/config-events";
-import { names as eventNames } from "../events/config-events";
+import { names as eventNames, permissionsEvents } from "../events/config-events";
 
 let tablePermissions = null
 let dtePermissions = null
@@ -47,7 +46,9 @@ function initDTEPermissions(){
         ],
     }).onClickButton([
         eventNames.EDIT_PERMISSION,
-    ]).buttons([Table.buttons.delete])
+    ]).buttons([
+        Table.buttons.delete
+    ])
 }
 
 function setupPermissions(){

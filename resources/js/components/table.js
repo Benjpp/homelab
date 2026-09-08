@@ -6,7 +6,6 @@ import DataTable from "datatables.net-dt";
 import "datatables.net-buttons-dt";
 import "datatables.net-select-dt"
 import "datatables.net-select-dt/css/select.dataTables.css"; 
-import { node } from "webpack";
 import { fetchHeaders } from "../fetchHeaders";
 
 export class Table {
@@ -19,7 +18,7 @@ export class Table {
         }
     }
 
-    constructor(selector, deleteUrl, options = {}) {
+    constructor(selector, deleteUrl = "", options = {}) {
         const selectColumn = {
             data: null,
             defaultContent: '',

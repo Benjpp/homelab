@@ -9,8 +9,8 @@ let inputPassword = null
 let loginBtn = null
 
 function initDomRefs(){
-    inputEmail = document.querySelector("#inputEmail")
-    inputPassword = document.querySelector("#inputPassword")
+    inputEmail = document.querySelector("#inputAuthEmail")
+    inputPassword = document.querySelector("#inputAuthPassword")
     loginBtn = document.querySelector("#loginButton")
     loginBtn.addEventListener("click", async function(event) {
         console.log("Adding event listener login button...")

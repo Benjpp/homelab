@@ -15,14 +15,16 @@ class PermissionController extends Controller
         return view("config.partials.permissions");
     }
 
-    public function getDatatable(){
+    public function getDatatable()
+    {
         $permissions = Permission::all();
 
         return Datatables::of($permissions)
             ->make(true);
     }
 
-    public function store(StorePermissionRequest $request){
+    public function store(StorePermissionRequest $request)
+    {
         $data = $request->all();
         try{
             $permission = Permission::create([
@@ -40,7 +42,8 @@ class PermissionController extends Controller
         ], 200);
     }
 
-    public function getPermission($id){
+    public function getPermission($id)
+    {
         $permission = Permission::find($id);
         return response()->json([
             "permission_name" => $permission->name,
@@ -48,7 +51,20 @@ class PermissionController extends Controller
         ], 200);
     }
 
-    public function deletePermission(Request $request){
+    public function getPermissions()
+    {
+        $permissions = Permission::all()->map( function($p) {
+            return [
+                "id" => $p->id,
+                "name" => $p->name
+            ];
+        });
+
+        return response()->json($permissions, 200);
+    }
+
+    public function deletePermission(Request $request)
+    {
         $ids = $request->input('ids');
         foreach($ids as $id){
             try{

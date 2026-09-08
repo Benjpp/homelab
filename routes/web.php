@@ -21,6 +21,12 @@ Route::middleware('auth')->group(function () {
         Route::controller(UserController::class)->group(function () {
             Route::get('/user', 'index');
             Route::get('/user/getDatatable', 'getDatatable');
+            Route::get('/user/permissions/not/{id}', 'getPermissionsNot');
+
+            Route::post('/user/store', 'store')->middleware('can:user.edit');
+            Route::put('/user/edit/{id}', 'edit')->middleware('can:user.edit');
+            Route::get('/user/get/{id}', 'getUser');
+            Route::delete('/user/delete', 'deleteUser')->middleware('can:user.edit');
         });
     });
 
@@ -31,6 +37,7 @@ Route::middleware('auth')->group(function () {
 
             Route::post('/permission/store', 'store')->middleware('can:permission.edit');
             Route::get('/permission/get/{id}', 'getPermission');
+            Route::get('/permission/all', 'getPermissions');
             Route::delete('/permission/dt/delete', 'deletePermission')->middleware('can:permission.edit');
         });
     });
