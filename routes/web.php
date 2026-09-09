@@ -15,6 +15,7 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(HomeController::class)->group(function () {
         Route::get('/config', 'configIndex');
+        Route::get('/cloud-storage', 'cloudStorageIndex');
     });
 
     Route::middleware('can:user.index')->group(function () {

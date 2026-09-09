@@ -14,14 +14,25 @@
     <div class="banner bg-dark text-white p-2 rounded-0 mb-0">
         <div class="container">
             <nav class="navbar">
-                @canany(['user.index', 'role.index', 'permission.index'])
-                <li class="nav-item list-unstyled">
-                    <a class="nav-link active d-flex align-items-center gap-2" aria-current="page" href="/config">
-                        <i class="fa-solid fa-cog"></i>
-                        <span> Config </span>
-                    </a>
-                </li>
-                @endcanany
+                <ul class="nav">
+                    @canany(['user.index', 'role.index', 'permission.index'])
+                    <li class="nav-item list-unstyled">
+                        <a class="nav-link text-white active d-flex align-items-center gap-2" aria-current="page" href="/config">
+                            <i class="fa-solid fa-cog"></i>
+                            <span> Config </span>
+                        </a>
+                    </li>
+                    @endcanany
+
+                    @can('cloud-storage.index')
+                    <li class="nav-item list-unstyled">
+                        <a class="nav-link text-white d-flex align-items-center gap-2" aria-current="page" href="/cloud-storage">
+                            <i class="fa-solid fa-cloud"></i>
+                            <span> Cloud </span>
+                        </a>
+                    </li>
+                    @endcan
+                </ul>
             </nav>
         </div>
     </div>
