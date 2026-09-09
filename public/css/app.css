@@ -28,6 +28,13 @@ body {
     transition: all 0.2s ease-in-out;
 }
 
+.nav-pills .nav-link.custom-tab-banner {
+    background-color: #ffffff !important;
+    color: #495057 !important;
+    border: 0px solid #dee2e6 !important;
+    transition: all 0.2s ease-in-out;
+}
+
 /* Hover en inactiva */
 .nav-pills .nav-link.custom-tab:hover {
     background-color: #e9ecef !important;
