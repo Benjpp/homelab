@@ -7,8 +7,6 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\EditUserRequest;
 use App\Models\User;
 use App\Models\Permission;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
@@ -43,9 +41,15 @@ class UserController extends Controller
         }
 
         $permissions = $data["permissions"];
-        foreach($permissions as $id){
-            $permission = Permission::findOrFail($id);
+
+        if(is_string($permissions)){
+            $permission = Permission::findOrFail($permissions);
             $user->givePermissionTo($permission->name);
+        }else{
+            foreach($permissions as $id){
+                $permission = Permission::findOrFail($id);
+                $user->givePermissionTo($permission->name);
+            }
         }
 
         return response()->json([
@@ -88,9 +92,15 @@ class UserController extends Controller
         }
 
         $permissions = $data["permissions"];
-        foreach($permissions as $id){
-            $permission = Permission::findOrFail($id);
+        
+        if(is_string($permissions)){
+            $permission = Permission::findOrFail($permissions);
             $user->givePermissionTo($permission->name);
+        }else{
+            foreach($permissions as $id){
+                $permission = Permission::findOrFail($id);
+                $user->givePermissionTo($permission->name);
+            }
         }
 
         return response()->json([
