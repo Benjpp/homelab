@@ -28,6 +28,7 @@ mix.js('resources/js/config/permissions.js', 'public/js/permissions.min.js')
 mix.js('resources/js/config/roles.js', 'public/js/roles.min.js')
 mix.js('resources/js/config/modals/modal-permissions.js', 'public/js/modal-permissions.min.js')
 mix.js('resources/js/config/modals/modal-users.js', 'public/js/modal-users.min.js')
-
+mix.js('resources/js/cloud-storage/index.js', 'public/js/cloud-storage/index.min.js')
+mix.js('resources/js/cloud-storage/modals/modal-directory.js', 'public/js/cloud-storage/modal-directory.min.js')
 
 mix.version()

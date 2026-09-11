@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\CloudStorage\CloudStorageController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\PermissionController;
 use App\Http\Controllers\User\RoleController;
@@ -49,6 +50,14 @@ Route::middleware('auth')->group(function () {
             Route::get('/role/getDatatable', 'getDatatable');
 
             Route::get('/role/store', 'store')->middleware('can:role.edit');
+        });
+    });
+
+    Route::middleware('can:cloud-storage.index')->group(function () {
+        Route::controller(CloudStorageController::class)->group(function () {
+            Route::get('/cloud-storage/getDatatable', 'getDatatable');
+            Route::post('/cloud-storage/upload/file', 'uploadFile');
+            Route::post('/cloud-storage/create/dir', 'createDirectory');
         });
     });
 });

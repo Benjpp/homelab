@@ -18,6 +18,11 @@ body {
     color: var(--text-primary);
 }
 
+.cloudStorageBannerSpace .custom-tab-banner {
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+}
+
 /* --- ESTILOS DE PESTAÑAS --- */
 
 /* Pestaña inactiva */
@@ -25,13 +30,6 @@ body {
     background-color: #ffffff !important;
     color: #495057 !important;
     border: 1px solid #dee2e6 !important;
-    transition: all 0.2s ease-in-out;
-}
-
-.nav-pills .nav-link.custom-tab-banner {
-    background-color: #ffffff !important;
-    color: #495057 !important;
-    border: 0px solid #dee2e6 !important;
     transition: all 0.2s ease-in-out;
 }
 
