@@ -1,26 +1,61 @@
 import { Table } from "../components/table"
 import { cloudStorageEvents, names as cloudStorageEventNames } from "../events/cloud-storage-events"
+import { fetchHeaders } from "../fetchHeaders"
 
 let storageTable = null
 let storageDTE = null
 let currentDirectory = null
 let backBtn = null
-
-function fetchDirectroyContents(){
-    storageDTE.setPayload({ directory_path: currentDirectory.value })
-    storageDTE.reload()
-}
+let fileInput = null
 
 function initDomRefs(){
     storageTable = document.querySelector("#documents-table")
     currentDirectory = document.querySelector("#currentDirectoryName")
     backBtn = document.querySelector("#cloudStorageBackBtn")
+    fileInput = document.createElement("input")
+    fileInput.type = "file"
     backBtn.disabled = true
     currentDirectory.value = ""
 }
 
 function initComponents(){
     
+    // Init the file input listener
+    fileInput.onchange = async (e) => {
+        console.log("On change file");
+
+        const files = Array.from(e.target.files);
+        if (files.length === 0) return;
+
+        try {
+            const payload = await Promise.all(
+                files.map(async (file) => ({
+                    filename: file.name,
+                    base64: await file.text()
+                }))
+            );
+
+            const response = await fetch("/cloud-storage/upload/file", {
+                method: "POST",
+                headers: fetchHeaders,
+                body: JSON.stringify({
+                    files: payload,
+                    current_directory: currentDirectory.value
+                })
+            });
+
+            console.log("Sent file");
+
+            if (!response.ok) {
+                console.warn("Response not ok on file upload");
+                return;
+            }
+        } catch (error) {
+            console.error("Error al procesar o subir los archivos:", error);
+        }
+    }
+
+    // Init the go back button for folder navigation
     backBtn.addEventListener("click", () => {
         // Early return if already base directory
         if(currentDirectory.value === ""){
@@ -92,9 +127,9 @@ function initDTEDocuments(){
                     return `<i class="fa-solid fa-file"></i> ${data}`
                 }
             }},
-            { data: "actions", title: "#", render: (data, type, row) => `
+            { data: "actions", title: "#", render: (data, type, row) => row.is_dir ? `
                 <button class="fa-solid fa-folder-open btn btn-sm btn-primary" data-event="${cloudStorageEventNames.OPEN_DIRECTORY}" data-name="${row.filename}" data-id="${row.id}"></button>
-            ` }
+            ` : `` }
         ]
     }).buttons([
         Table.buttons.delete
@@ -118,19 +153,35 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     document.addEventListener(cloudStorageEventNames.OPEN_DIRECTORY, (e) => {
-        backBtn.disabled = false
+        console.log("Cloud Storage: Opening directroy")
+        openDirectory(e)
+    })
 
-        currentDirectory.value = `${currentDirectory.value}/${e.target.dataset.name}`
-        console.log(`Opening folder: ${currentDirectory.value}`)
-
-        const container = document.querySelector("#cloudStorageBannerUl")
-        const nuevoLi = document.createElement('li')
-        nuevoLi.className = 'nav-item cloudStorageBannerSpace'
-        nuevoLi.innerHTML = `<span class="nav-link custom-tab-banner rounded-0 text-secondary">
-            <i class="fa-solid fa-angles-right text-secondary me-2"></i>${e.target.dataset.name}
-            </span>
-        `
-        container.appendChild(nuevoLi)
-        fetchDirectroyContents()
+    document.addEventListener(cloudStorageEventNames.UPLOAD_FILE, (e) => {
+        console.log("Cloud Storage: Uploading file")
+        fileInput.click()
     })
 })
+
+// ================= HELPERS =================
+function fetchDirectroyContents(){
+    storageDTE.setPayload({ directory_path: currentDirectory.value })
+    storageDTE.reload()
+}
+
+function openDirectory(event){
+    backBtn.disabled = false
+    currentDirectory.value = `${currentDirectory.value}/${event.target.dataset.name}`
+    console.log(`Opening folder: ${currentDirectory.value}`)
+
+    const container = document.querySelector("#cloudStorageBannerUl")
+    const nuevoLi = document.createElement('li')
+    nuevoLi.className = 'nav-item cloudStorageBannerSpace'
+    nuevoLi.innerHTML = `<span class="nav-link custom-tab-banner rounded-0 text-secondary">
+        <i class="fa-solid fa-angles-right text-secondary me-2"></i>${event.target.dataset.name}
+        </span>
+    `
+
+    container.appendChild(nuevoLi)
+    fetchDirectroyContents()
+}

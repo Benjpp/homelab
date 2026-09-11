@@ -38,4 +38,24 @@ class ModelHasDocumentService
 
         return $success;
     }
+
+    public function createFile($path, $model_type, $model_id, $base64)
+    {
+        $success = Storage::disk('local')->put($path, $base64);
+
+        if(!$success){
+            // TODO Log the failure or sum 
+        }else{
+            // TODO Log the success or sum too
+            $document_type = DocumentType::where('name', 'file')->first();
+            ModelHasDocument::create([
+                "model_type" => $this::CONVERT[$model_type],
+                "model_id" => $model_id,
+                "path" => $path,
+                "document_type_id" => $document_type->id
+            ]);
+        }
+
+        return $success;
+    }
 }

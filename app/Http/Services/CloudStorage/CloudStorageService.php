@@ -4,6 +4,7 @@ namespace App\Http\Services\CloudStorage;
 
 use App\Http\Controllers\DocumentController;
 use App\Http\Requests\CloudStorage\CreateDirectoryRequest;
+use App\Http\Requests\UploadFileRequest;
 use App\Http\Services\ModelHasDocumentService;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,7 +22,26 @@ class CloudStorageService
         $directoryName = $request->input('directory_name');
 
         $path = $this::BASE_DIRECTORY . $currentDir;
-
+       
         return $this->modelHasDocumentService->createDirectory($path . "/" . $directoryName, 'cloud-storage', Auth::user()->id);
+    }
+
+    // Can receive multiple files. Returns true if at least one file was uploaded. 
+    // TODO In case of failing to upload any file, log the failure or sum like that 
+    public function uploadFile(UploadFileRequest $request) : bool 
+    {
+        $files = $request->input('files');
+        $directory_path = $request->input('directory_path');
+        $successOne = false;
+
+        forEach($files as $file){
+            $filename = $file["filename"];
+            $base64 = $file["base64"];
+            $path = $this::BASE_DIRECTORY . "/" . $directory_path . "/" . $filename;
+
+            $successOne = $successOne || $this->modelHasDocumentService->createFile($path, 'cloud-storage', Auth::user()->id, $base64);
+        }
+
+        return $successOne;
     }
 }

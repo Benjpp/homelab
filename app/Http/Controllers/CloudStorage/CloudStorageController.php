@@ -4,6 +4,7 @@ namespace App\Http\Controllers\CloudStorage;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CloudStorage\CreateDirectoryRequest;
+use App\Http\Requests\UploadFileRequest;
 use App\Http\Services\CloudStorage\CloudStorageService;
 use App\Models\Document\DocumentType;
 use App\Models\Document\ModelHasDocument;
@@ -42,8 +43,20 @@ class CloudStorageController extends Controller
             ->make(true);
     }    
 
-    public function uploadFile()
+    public function uploadFile(UploadFileRequest $uploadFileRequest)
     {
+        $success = $this->cloudStorageService->uploadFile($uploadFileRequest);
+
+        if(!$success){
+            return response()->json([
+                "success" => false,
+                "error" => "Error uploading file"
+            ], 500);
+        }else{
+            return response()->json([
+                "success" => true
+            ], 200);
+        }
     }
 
     public function createDirectory(CreateDirectoryRequest $createDirectoryRequest)

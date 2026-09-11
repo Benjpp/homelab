@@ -18,11 +18,6 @@ body {
     color: var(--text-primary);
 }
 
-.cloudStorageBannerSpace .custom-tab-banner {
-    padding-left: 4px !important;
-    padding-right: 4px !important;
-}
-
 /* --- ESTILOS DE PESTAÑAS --- */
 
 /* Pestaña inactiva */
