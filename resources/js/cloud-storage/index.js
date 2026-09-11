@@ -4,11 +4,49 @@ import { cloudStorageEvents, names as cloudStorageEventNames } from "../events/c
 let storageTable = null
 let storageDTE = null
 let currentDirectory = null
+let backBtn = null
+
+function fetchDirectroyContents(){
+    storageDTE.setPayload({ directory_path: currentDirectory.value })
+    storageDTE.reload()
+}
 
 function initDomRefs(){
     storageTable = document.querySelector("#documents-table")
     currentDirectory = document.querySelector("#currentDirectoryName")
+    backBtn = document.querySelector("#cloudStorageBackBtn")
+    backBtn.disabled = true
     currentDirectory.value = ""
+}
+
+function initComponents(){
+    
+    backBtn.addEventListener("click", () => {
+        // Early return if already base directory
+        if(currentDirectory.value === ""){
+            console.log("Already in base directory")
+            backBtn.disabled = true
+            return
+        }
+
+        const path = currentDirectory.value
+        const index = path.lastIndexOf('/')
+        currentDirectory.value = path.substr(0, index)
+        console.log("Current directory: ", currentDirectory.value)
+        const container = document.querySelector("#cloudStorageBannerUl")
+        const rightMostChild = container.childNodes[container.childNodes.length - 1]
+
+        if(rightMostChild){
+            container.removeChild(rightMostChild)
+        }
+
+        // Disable button if we are back in base directory
+        if(currentDirectory.value === ""){
+            backBtn.disabled = true
+        }
+
+        fetchDirectroyContents()
+    })
 }
 
 function initDTEDocuments(){
@@ -67,6 +105,7 @@ function initDTEDocuments(){
 
 function setUpCloudStorage(){
     initDomRefs()
+    initComponents()
     initDTEDocuments()
 }
 
@@ -79,6 +118,8 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     document.addEventListener(cloudStorageEventNames.OPEN_DIRECTORY, (e) => {
+        backBtn.disabled = false
+
         currentDirectory.value = `${currentDirectory.value}/${e.target.dataset.name}`
         console.log(`Opening folder: ${currentDirectory.value}`)
 
@@ -90,10 +131,6 @@ document.addEventListener("DOMContentLoaded", () => {
             </span>
         `
         container.appendChild(nuevoLi)
-
-        storageDTE.setPayload({
-            directory_path: currentDirectory.value
-        })
-        storageDTE.reload()
+        fetchDirectroyContents()
     })
 })
