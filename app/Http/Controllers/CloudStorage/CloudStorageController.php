@@ -74,4 +74,14 @@ class CloudStorageController extends Controller
             ], 200);
         }
     }
+
+    public function getFile($id)
+    {
+        return $this->cloudStorageService->getFile($id);
+    }
+
+    public function downloadFile($id)
+    {
+        return $this->cloudStorageService->downloadFile($id);
+    }
 }

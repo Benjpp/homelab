@@ -41,7 +41,13 @@ class ModelHasDocumentService
 
     public function createFile($path, $model_type, $model_id, $base64)
     {
-        $success = Storage::disk('local')->put($path, $base64);
+        if(str_contains($base64, ',')){
+            $pos = strrpos($base64, ',');
+            $base64 = substr($base64, $pos + 1);
+        }
+        
+        $fileData = base64_decode($base64);
+        $success = Storage::disk('local')->put($path, $fileData);
 
         if(!$success){
             // TODO Log the failure or sum 
@@ -57,5 +63,17 @@ class ModelHasDocumentService
         }
 
         return $success;
+    }
+
+    public function getFile($id)
+    {
+        $document = ModelHasDocument::findOrFail($id);
+        return Storage::response($document->path);
+    }
+
+    public function downloadFile($id)
+    {
+        $document = ModelHasDocument::findOrFail($id);
+        return Storage::download($document->path, basename($document->path));
     }
 }

@@ -18,23 +18,46 @@ function initDomRefs(){
     currentDirectory.value = ""
 }
 
+async function readFile(file){
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.readAsDataURL(file, 'UTF-8')
+        
+        reader.onload = readerEvent => {
+            var content = readerEvent.target.result
+            resolve(content)
+        }
+
+        reader.onerror = error => {
+            reject(error)
+        }
+    })
+}
+
 function initComponents(){
     
     // Init the file input listener
     fileInput.onchange = async (e) => {
         console.log("On change file");
 
+        // Convert FileList to a standard Array to use array methods like .map()
         const files = Array.from(e.target.files);
         if (files.length === 0) return;
 
         try {
+            // Read all selected files concurrently and wait for all promises to resolve
             const payload = await Promise.all(
-                files.map(async (file) => ({
-                    filename: file.name,
-                    base64: await file.text()
-                }))
+                files.map(async (file) => {
+                    // Asynchronously read the file content as Base64/Data URL
+                    const content = await readFile(file);
+                    return {
+                        filename: file.name,
+                        base64: content
+                    };
+                })
             );
 
+            // Send the files payload and target directory to the server
             const response = await fetch("/cloud-storage/upload/file", {
                 method: "POST",
                 headers: fetchHeaders,
@@ -46,12 +69,21 @@ function initComponents(){
 
             console.log("Sent file");
 
+            // Handle HTTP error statuses
             if (!response.ok) {
                 console.warn("Response not ok on file upload");
                 return;
             }
+
+            // Reload the DataTables/Storage component on successful upload
+            storageDTE.reload();
+
         } catch (error) {
-            console.error("Error al procesar o subir los archivos:", error);
+            // Catch and log file reading or network errors
+            console.error("Error processing or uploading files:", error);
+        } finally {
+            // Reset input value to allow re-uploading the same file if needed
+            fileInput.value = "";
         }
     }
 
@@ -124,17 +156,18 @@ function initDTEDocuments(){
                 if(row.is_dir){
                     return `<i class="fa-solid fa-folder"></i> ${data}`
                 }else{
-                    return `<i class="fa-solid fa-file"></i> ${data}`
+                    return `<i class="fa-solid fa-file"></i> <a href="/cloud-storage/getFile/${row.id}"> ${data}</a>`
                 }
             }},
             { data: "actions", title: "#", render: (data, type, row) => row.is_dir ? `
                 <button class="fa-solid fa-folder-open btn btn-sm btn-primary" data-event="${cloudStorageEventNames.OPEN_DIRECTORY}" data-name="${row.filename}" data-id="${row.id}"></button>
-            ` : `` }
+            ` : `<button class="fa-solid fa-download btn btn-sm btn-success" data-event="${cloudStorageEventNames.DOWNLOAD_FILE}" data-id="${row.id}"></button>` }
         ]
     }).buttons([
         Table.buttons.delete
     ]).onClickButton([
-        cloudStorageEventNames.OPEN_DIRECTORY
+        cloudStorageEventNames.OPEN_DIRECTORY,
+        cloudStorageEventNames.DOWNLOAD_FILE
     ])
 }
 
@@ -161,6 +194,11 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Cloud Storage: Uploading file")
         fileInput.click()
     })
+
+    document.addEventListener(cloudStorageEventNames.DOWNLOAD_FILE, (e) => {
+        console.log("Downloading file. ID: ", e.target.dataset.id)
+        downloadFile(e.target.dataset.id)
+    })
 })
 
 // ================= HELPERS =================
@@ -184,4 +222,46 @@ function openDirectory(event){
 
     container.appendChild(nuevoLi)
     fetchDirectroyContents()
+}
+
+async function downloadFile(fileId){
+    try{
+        const response = await fetch(`/cloud-storage/downloadFile/${fileId}`, {
+            headers: fetchHeaders,
+            method: "GET"
+        });
+
+        if (!response.ok) {
+            console.warn("Response not ok on file download");
+            return;
+        }
+
+        const blob = await response.blob();
+        
+        const contentDisposition = response.headers.get('content-disposition');
+        let filename = 'documento'; 
+
+        if (contentDisposition) {
+            const match = contentDisposition.match(/filename\*?=(?:UTF-8'')?["']?([^"';\n]+)["']?/i);
+            if (match && match[1]) {
+                filename = decodeURIComponent(match[1]);
+            }
+        }
+
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = filename;
+        
+        document.body.appendChild(link);
+        link.click();
+
+        link.remove();
+        window.URL.revokeObjectURL(downloadUrl);
+
+        // TODO Toast like success
+    }catch(error){
+        // TODO Toast like error
+        console.log(error)
+    }
 }
