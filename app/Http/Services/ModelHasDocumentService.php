@@ -76,4 +76,41 @@ class ModelHasDocumentService
         $document = ModelHasDocument::findOrFail($id);
         return Storage::download($document->path, basename($document->path));
     }
+
+    /**
+     * Deletes the files/directories with the given id stored in the documents table. Returns true if one has failed
+     * @param mixed $ids
+     */
+    public function delete($ids){
+        $failed = false;
+        $directory_type_id = DocumentType::where('name', 'directory')->first();
+
+        foreach($ids as $id){
+            $document = null;
+            try{
+                $document = ModelHasDocument::findOrFail($id);
+            }catch(\Exception $e){
+                // TODO Log the failure
+                $failed = true;
+                continue;
+            }
+
+            $deleted = false;
+            if($document->document_type_id == $directory_type_id->id){
+                $deleted = Storage::disk('local')->deleteDirectory($document->path);
+            }else{
+                $deleted = Storage::disk('local')->delete($document->path);
+            }
+
+            if(!$deleted){
+                // TODO Log storage delete error
+                $failed = true;
+                continue;
+            }
+
+            $document->delete();
+        }
+
+        return $failed;
+    }
 }

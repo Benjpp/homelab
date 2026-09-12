@@ -84,4 +84,19 @@ class CloudStorageController extends Controller
     {
         return $this->cloudStorageService->downloadFile($id);
     }
+
+    public function deleteFile(Request $request)
+    {
+        $failedOne = $this->cloudStorageService->deleteFile($request);
+
+        if($failedOne){
+            return response()->json([
+                "error" => "File/s could not be deleted"
+            ], 500);
+        }else{
+            return response()->json([
+                "success" => true
+            ], 200);
+        }
+    }
 }

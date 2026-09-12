@@ -7,6 +7,7 @@ use App\Http\Requests\CloudStorage\CreateDirectoryRequest;
 use App\Http\Requests\UploadFileRequest;
 use App\Http\Services\ModelHasDocumentService;
 use App\Models\Document\ModelHasDocument;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CloudStorageService 
@@ -59,5 +60,16 @@ class CloudStorageService
     public function downloadFile($id)
     {
         return $this->modelHasDocumentService->downloadFile($id);
+    }
+
+    public function deleteFile(Request $request)
+    {
+        $idArray = (array)$request->input('ids');
+
+        if($idArray == null){
+            return false;
+        }else{
+            return $this->modelHasDocumentService->delete($idArray);
+        }
     }
 }

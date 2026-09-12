@@ -61,6 +61,7 @@ Route::middleware('auth')->group(function () {
             Route::post('/cloud-storage/create/dir', 'createDirectory');
             Route::get('/cloud-storage/getFile/{id}', 'getFile');
             Route::get('/cloud-storage/downloadFile/{id}', 'downloadFile');
+            Route::delete('/cloud-storage/deleteFile', 'deleteFile');
         });
     });
 });

@@ -121,7 +121,7 @@ function initDTEDocuments(){
         console.warn("Table storage null")
         return
     }
-    storageDTE = new Table(storageTable, "", {
+    storageDTE = new Table(storageTable, "/cloud-storage/deleteFile", {
         ajax: {
             url: "/cloud-storage/getDatatable",
             type: "GET",
@@ -252,7 +252,7 @@ async function downloadFile(fileId){
         const link = document.createElement('a');
         link.href = downloadUrl;
         link.download = filename;
-        
+
         document.body.appendChild(link);
         link.click();
 
