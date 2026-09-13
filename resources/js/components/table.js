@@ -24,7 +24,8 @@ export class Table {
             defaultContent: '',
             className: 'align-items-center select-checkbox',
             orderable: false,
-            searchable: false
+            searchable: false,
+            width: "10%"
         };
 
         const userColumns = options.columns || [];
@@ -44,6 +45,13 @@ export class Table {
         this.dteEvents = {};
         this.deleteUrl = deleteUrl
         this.datatable.deleteUrl = deleteUrl
+    }
+
+    setPayload(payload)
+    {
+        this.datatable.settings()[0].ajax.data = payload
+
+        return this
     }
 
     /**
@@ -132,5 +140,7 @@ export class Table {
             this.datatable.button().add(length, buttonConfig)
             length++
         })
+
+        return this
     }
 }

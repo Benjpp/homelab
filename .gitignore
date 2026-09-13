@@ -27,3 +27,10 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+/public/mix-manifest.json
+/public/js
+/public/css
+/public/mix-manifest.json
+/public/build
+/public/hot
+/public/storage

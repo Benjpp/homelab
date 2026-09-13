@@ -52,4 +52,8 @@ function setupUsers(){
 
 document.addEventListener("DOMContentLoaded", () => {
     setupUsers()
+
+    document.addEventListener(eventNames.REFRESH_USER, () => {
+        dteUsers.reload()
+    })
 })
