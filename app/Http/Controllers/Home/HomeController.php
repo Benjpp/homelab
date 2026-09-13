@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Http\Controllers\Home;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class HomeController extends Controller
+{
+    public function configIndex()
+    {
+        return view("config.index");
+    }
+
+    public function cloudStorageIndex()
+    {
+        return view("cloud-storage.index");
+    }
+}

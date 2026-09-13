@@ -15,9 +15,16 @@ else
     log "vendor/autoload.php found; skipping Composer install"
 fi
 
+log "Creating required Laravel storage directory structure"
+mkdir -p storage/framework/views \
+         storage/framework/sessions \
+         storage/framework/cache \
+         storage/logs \
+         bootstrap/cache
+
 log "Fixing Laravel writable directories"
 chown -R www-data:www-data storage bootstrap/cache || true
-chmod -R 775 storage bootstrap/cache || true
+chmod -R 777 storage bootstrap/cache || true
 
 log "Handing off to: $*"
 exec "$@"
