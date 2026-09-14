@@ -135,14 +135,14 @@ function initDTEDocuments(){
             topStart: {
                 buttons: [
                     {
-                        text: '<i class="fa-solid fa-arrow-up me-1"></i> <i class="fa-solid fa-file"></i>',
+                        text: '<i class="fa-solid fa-file-arrow-up"></i> ',
                         className: 'btn btn-primary btn-sm',
                         action: function (e, dt, node, config){
                             document.dispatchEvent(cloudStorageEvents.uploadFile())
                         }
                     },
                     {
-                        text: '<i class="fa-solid fa-plus me-1"></i> <i class="fa-solid fa-folder"></i>',
+                        text: '<i class="fa-solid fa-folder-plus">',
                         className: 'btn btn-warning btn-sm',
                         action: function(e, dt, node, config){
                             document.dispatchEvent(cloudStorageEvents.createDirectory())

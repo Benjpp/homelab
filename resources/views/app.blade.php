@@ -27,8 +27,8 @@
                     @can('cloud-storage.index')
                     <li class="nav-item list-unstyled">
                         <a class="nav-link text-white d-flex align-items-center gap-2" aria-current="page" href="/cloud-storage">
-                            <i class="fa-solid fa-cloud"></i>
-                            <span> Cloud </span>
+                            <i class="fa-solid fa-hard-drive"></i>
+                            <span> Storage </span>
                         </a>
                     </li>
                     @endcan
