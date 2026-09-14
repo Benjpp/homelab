@@ -33,11 +33,11 @@ class CloudStorageService
     // TODO In case of failing to upload any file, log the failure or sum like that 
     public function uploadFile(UploadFileRequest $request) : bool 
     {
-        $files = $request->input('files');
+        $files = (array)$request->input('files');
         $directory_path = $request->input('current_directory');
         $successOne = false;
 
-        forEach($files as $file){
+        forEach($files as $id => $file){
             $filename = $file["filename"];
             $base64 = $file["base64"];
             $path = $this::BASE_DIRECTORY . $directory_path . "/" . $filename;

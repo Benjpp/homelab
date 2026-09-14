@@ -14,6 +14,7 @@ function initDomRefs(){
     backBtn = document.querySelector("#cloudStorageBackBtn")
     fileInput = document.createElement("input")
     fileInput.type = "file"
+    fileInput.multiple = true
     backBtn.disabled = true
     currentDirectory.value = ""
 }
@@ -42,6 +43,7 @@ function initComponents(){
 
         // Convert FileList to a standard Array to use array methods like .map()
         const files = Array.from(e.target.files);
+        console.log("Number of files = ", files.length)
         if (files.length === 0) return;
 
         try {
