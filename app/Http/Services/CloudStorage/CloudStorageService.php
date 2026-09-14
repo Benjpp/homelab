@@ -34,7 +34,7 @@ class CloudStorageService
     public function uploadFile(UploadFileRequest $request) : bool 
     {
         $files = $request->input('files');
-        $directory_path = $request->input('directory_path');
+        $directory_path = $request->input('current_directory');
         $successOne = false;
 
         forEach($files as $file){
