@@ -4,7 +4,8 @@ export const names = {
     DELETE_FILE: "deleteFile",
     REFRESH: "refreshCloudStorage",
     OPEN_DIRECTORY: "openDirectory",
-    DOWNLOAD_FILE: "downloadFile"
+    DOWNLOAD_FILE: "downloadFile",
+    UPLOAD_DIRECTORY: "uploadDirectory"
 }
 
 export const cloudStorageEvents = {
@@ -46,6 +47,13 @@ export const cloudStorageEvents = {
     downloadFile: (payload = {}) => new CustomEvent(names.DOWNLOAD_FILE, {
         detail: {
             name: names.DOWNLOAD_FILE,
+            ...payload
+        }
+    }),
+
+    uploadDirectory: (payload = {}) => new CustomEvent(names.UPLOAD_DIRECTORY, {
+        detail: {
+            name: names.UPLOAD_DIRECTORY,
             ...payload
         }
     })

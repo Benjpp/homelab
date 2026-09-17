@@ -7,11 +7,19 @@ let storageDTE = null
 let currentDirectory = null
 let backBtn = null
 let fileInput = null
+let directoryInput = null
 
 function initDomRefs(){
     storageTable = document.querySelector("#documents-table")
     currentDirectory = document.querySelector("#currentDirectoryName")
     backBtn = document.querySelector("#cloudStorageBackBtn")
+
+    directoryInput = document.createElement("input")
+    directoryInput.type = "file"
+    directoryInput.webkitdirectory = true
+    directoryInput.directory = true
+    directoryInput.multiple = true
+    
     fileInput = document.createElement("input")
     fileInput.type = "file"
     fileInput.multiple = true
@@ -37,6 +45,54 @@ async function readFile(file){
 
 function initComponents(){
     
+    // Init the directory input listener
+    directoryInput.onchange = async (e) => {
+        console.log("On directory change")
+        const files = Array.from(e.target.files)
+
+        if (files.length === 0) return
+
+        try{
+            const payload = await Promise.all(
+                files.map(async (file) => {
+                    const content = await readFile(file)
+                    return {
+                        filename: file.webkitRelativePath || file.name,
+                        base64: content
+                    }
+                })
+            )
+
+            // Send the files payload and target directory to the server
+            const response = await fetch("/cloud-storage/upload/file", {
+                method: "POST",
+                headers: fetchHeaders,
+                body: JSON.stringify({
+                    files: payload,
+                    current_directory: currentDirectory.value
+                })
+            });
+
+            console.log("Sent file. Body: ", {files: payload, current_directory: currentDirectory.value});
+
+            // Handle HTTP error statuses
+            if (!response.ok) {
+                console.warn("Response not ok on file upload");
+                return;
+            }
+
+            // Reload the DataTables/Storage component on successful upload
+            storageDTE.reload();
+
+        } catch (error) {
+            // Catch and log file reading or network errors
+            console.error("Error processing or uploading files:", error);
+        } finally {
+            // Reset input value to allow re-uploading the same file if needed
+            directoryInput.value = "";
+        }
+    }
+
     // Init the file input listener
     fileInput.onchange = async (e) => {
         console.log("On change file");
@@ -69,7 +125,7 @@ function initComponents(){
                 })
             });
 
-            console.log("Sent file");
+            console.log("Sent file. Body: ", {files: payload, current_directory: currentDirectory.value});
 
             // Handle HTTP error statuses
             if (!response.ok) {
@@ -144,6 +200,13 @@ function initDTEDocuments(){
                         }
                     },
                     {
+                        text: '<i class="fa-solid fa-folder-open"></i> ',
+                        className: 'btn btn-primary btn-sm',
+                        action: function (e, dt, node, config){
+                            document.dispatchEvent(cloudStorageEvents.uploadDirectory())
+                        }
+                    },
+                    {
                         text: '<i class="fa-solid fa-folder-plus">',
                         className: 'btn btn-warning btn-sm',
                         action: function(e, dt, node, config){
@@ -195,6 +258,11 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener(cloudStorageEventNames.UPLOAD_FILE, (e) => {
         console.log("Cloud Storage: Uploading file")
         fileInput.click()
+    })
+
+    document.addEventListener(cloudStorageEventNames.UPLOAD_DIRECTORY, (e) => {
+        console.log("Cloud sotrage: upload directory")
+        directoryInput.click()
     })
 
     document.addEventListener(cloudStorageEventNames.DOWNLOAD_FILE, (e) => {
