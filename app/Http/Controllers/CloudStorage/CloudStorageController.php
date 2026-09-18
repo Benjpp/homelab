@@ -26,7 +26,7 @@ class CloudStorageController extends Controller
         $query = ModelHasDocument::where('model_type', $this::class)->where('model_id', Auth::user()->id)->get();
         $files = [];
         
-        forEach($query as $file){
+        foreach($query as $file){
             if(dirname($file->path) == $directory_path){
                 $files[] = $file;
             }
@@ -46,6 +46,21 @@ class CloudStorageController extends Controller
     public function uploadFile(UploadFileRequest $uploadFileRequest)
     {
         $success = $this->cloudStorageService->uploadFile($uploadFileRequest);
+
+        if(!$success){
+            return response()->json([
+                "success" => false,
+                "error" => "Error uploading file"
+            ], 500);
+        }else{
+            return response()->json([
+                "success" => true
+            ], 200);
+        }
+    }
+
+    public function uploadDirectory(UploadFileRequest $uploadFileRequest){
+        $success = $this->cloudStorageService->uploadDirectory($uploadFileRequest);
 
         if(!$success){
             return response()->json([

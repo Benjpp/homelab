@@ -39,6 +39,7 @@ async function readFile(file){
 
         reader.onerror = error => {
             reject(error)
+            console.log("Reject: ", error)
         }
     })
 }
@@ -64,7 +65,7 @@ function initComponents(){
             )
 
             // Send the files payload and target directory to the server
-            const response = await fetch("/cloud-storage/upload/file", {
+            const response = await fetch("/cloud-storage/upload/dir", {
                 method: "POST",
                 headers: fetchHeaders,
                 body: JSON.stringify({
