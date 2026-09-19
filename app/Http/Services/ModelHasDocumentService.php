@@ -81,7 +81,7 @@ class ModelHasDocumentService
      * Deletes the files/directories with the given id stored in the documents table. Returns true if one has failed
      * @param mixed $ids
      */
-    public function delete($ids){
+    public function delete($ids, $model_type = null){
         $failed = false;
         $directory_type_id = DocumentType::where('name', 'directory')->first();
 
@@ -108,7 +108,11 @@ class ModelHasDocumentService
                 continue;
             }
 
-            $document->delete();
+            if($document->document_type_id == $directory_type_id->id){
+                ModelHasDocument::where('path', 'LIKE', $document->path . '%')->delete();
+            }else{
+                $document->delete();
+            }
         }
 
         return $failed;
