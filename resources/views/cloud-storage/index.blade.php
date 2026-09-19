@@ -12,7 +12,7 @@
             </li>
             <li class="nav-item cloudStorageBannerSpace">
                 <span class="nav-link custom-tab-banner rounded-0 text-secondary" id="cloudStorageSpan">
-                    <i class="fa-solid fa-angles-right text-secondary me-2"></i>Mis Documentos
+                    <i class="fa-solid fa-angles-right text-secondary me-2"></i>My Docs
                 </span>
             </li>
         </ul>
