@@ -58,6 +58,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/cloud-storage/getDatatable', 'getDatatable');
 
             Route::post('/cloud-storage/upload/file', 'uploadFile');
+            Route::post('/cloud-storage/upload/dir', 'uploadDirectory');
             Route::post('/cloud-storage/create/dir', 'createDirectory');
             Route::get('/cloud-storage/getFile/{id}', 'getFile');
             Route::get('/cloud-storage/downloadFile/{id}', 'downloadFile');
