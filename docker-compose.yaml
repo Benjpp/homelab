@@ -31,6 +31,25 @@ services:
       - "../db_homelab:/var/lib/mysql"
     networks:
       - homelab_net
+  
+  caddy:
+    image: caddy:2.9-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/opt/caddy/Caddyfile
+      - ./site:/srv
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - homelab_net
+
+volumes:
+  caddy_data:
+  caddy_config:
 
 networks:
   homelab_net:
