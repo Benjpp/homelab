@@ -1,0 +1,3 @@
+nothinger.duckdns.org {
+  reverse_proxy homelab:80
+}
