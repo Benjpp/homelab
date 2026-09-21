@@ -1,9 +1,9 @@
-# 🚀 [Nombre de tu Proyecto]
+# 🚀 [nothinger]
+Esto debería estar en inglés. Un poquito de nada.
 
-[Una frase corta y potente que describa la app. Ej: "Plataforma de gestión de activos personales construida con Laravel"].
 
 ## 💻 Desarrollo
-Aplicación desarrollada bajo el ecosistema **Laravel**, enfocada en [mencionar un objetivo: ej. escalabilidad, simplicidad, aprendizaje de arquitectura].
+Aplicación desarrollada bajo el ecosistema **Laravel**, pa aprender.
 
 - **Backend:** Laravel [Versión] / PHP [Versión]
 - **Base de Datos:** [Ej. MySQL]
