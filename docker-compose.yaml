@@ -40,16 +40,36 @@ services:
       - "443:443"
       - "443:443/udp"
     volumes:
-      - ./Caddyfile:/opt/caddy/Caddyfile
-      - ./site:/srv
+      - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
     networks:
       - homelab_net
+  
+  nextcloud:
+    image: "nextcloud:28"
+    container_name: "nextcloud_app"
+    environment:
+      - MYSQL_PASSWORD=${MY_SQL_PASSWORD} 
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=root
+      - MYSQL_HOST=db 
+      - NEXTCLOUD_TRUSTED_DOMAINS=nextcloud.nothinger.duckdns.org
+      - OVERWRITEPROTOCOL=https
+    restart: unless-stopped
+    ports: 
+      - "5000:80"
+    volumes:
+      - nextcloud_app:/var/www/html
+      - nextcloud_data:/var/www/html/data
+    networks:
+      - homelab_net 
 
 volumes:
   caddy_data:
   caddy_config:
+  nextcloud_app:
+  nextcloud_data:
 
 networks:
   homelab_net:
