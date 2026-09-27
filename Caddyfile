@@ -1,3 +1,7 @@
 nothinger.duckdns.org {
   reverse_proxy homelab:80
 }
+
+nextcloud.nothinger.duckdns.org {
+  reverse_proxy nextcloud_app:80
+}
